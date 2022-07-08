@@ -16,7 +16,7 @@ import {columnData} from './datasource';
 
 function App() {
   const [chartData,setChartData]=useState<any>([]);
-  const [pickedYear,setPickedYear]=useState(0);
+  const [pickedYear,setPickedYear]=useState(2021);
   
 
 
@@ -26,7 +26,7 @@ function App() {
 
    const year= allData.d.filter(item=>item.Year==pickedYear);
 
-   console.log(year);
+   
 
 
     setChartData(year);
@@ -43,10 +43,15 @@ function App() {
 const changeYearHandler=(event:any)=>{
 setPickedYear(event.target.value)
 
-
-
-
 }
+const years=allData.d.map((item:any)=>item.Year);
+
+
+const distinctYears=new Set(years);
+
+
+
+
 
   return (
     <>
@@ -56,12 +61,8 @@ setPickedYear(event.target.value)
   <Inject services={[ColumnSeries, Selection, Category, Legend]} />
   <SeriesCollectionDirective>
     <SeriesDirective
-    
-    
     dataSource={chartData} xName='Month' yName='Bytes' name='year' type='Column'>
     </SeriesDirective>
-   
- 
   </SeriesCollectionDirective>
 </ChartComponent>
 
@@ -71,12 +72,7 @@ setPickedYear(event.target.value)
         <label>
           Pick the year:
           <select >
-            <option value={0}>year</option>
-            <option value={2018}>2018</option>
-            <option value={2019}>2019</option>
-            <option value={2020}>2020</option>
-            <option value={2021}>2021</option>
-            <option value={2022}>2022</option>
+            {Array.from(distinctYears).map(x=><option value={x}>{x}</option>)}
           </select>
         </label>
         
